@@ -22,8 +22,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Cleaning cache
 RUN apk del git && rm -rf /var/cache/apk/*
 
-RUN addgroup -S tape
-RUN adduser -S -G tape tape
+RUN addgroup tape && adduser -G tape tape
 USER tape
 
 # Setting entrypoint

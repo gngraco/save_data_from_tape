@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ENV for TEX",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "envFile": "${userHome}/git/env-files/all/tape_api_vscode.env"
+        }
+    ]
+}

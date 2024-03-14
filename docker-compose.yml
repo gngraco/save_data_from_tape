@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+
+  # ------------------------------------
+  # App Container
+  # ------------------------------------
+
+  save_data_from_tape:
+    container_name: save_data_from_tape
+    deploy:
+      resources:
+        reservations:
+          cpus: '0.5'
+          memory: 1000M
+        limits:
+          cpus: '1'
+          memory: 1000M
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: gngraco/save_data_from_tape
+    restart: always
+    env_file:
+      - "${TAPE_API_ENVFILE}"
+      - "${DATABASE_ENVFILE}"
+      - "${MISC_ENVFILE}"
+    volumes:
+      - ./:/opt/save_data_from_tape

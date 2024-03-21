@@ -52,7 +52,9 @@ def insert_items(tape: Client, apps_ids: list):
                 # Data to fill in table
                 table_data_model = OrderedDict()
                 for field in app_info.get('fields'):
-                    table_data_model[field['external_id'][:40]] = "''"
+                    # Tape permits the following fields as simple attributes
+                    if field['external_id']not in ['record_id', 'created_on', 'last_modified_on']:
+                        table_data_model[field['external_id']] = "''"
 
                 try:
 
@@ -125,8 +127,8 @@ def _process_records(cursor: cursor, table_name: str, records: list, table_data_
             # Update new database record data with the record data from Tape
             for field in record.get('fields'):
 
-                if field['external_id'][:40] in table_data_model:
-                    new_rec.update({field['external_id'][:40]: get_field_text_values(field)})
+                if field['external_id'] in table_data_model:
+                    new_rec.update({field['external_id']: get_field_text_values(field)})
 
             values.extend(list(new_rec.values()))
 

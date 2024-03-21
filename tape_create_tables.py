@@ -54,7 +54,6 @@ def create_tables(tape: Client, apps_ids: list):
                 for field in app_info.get('fields'):
                     label = field['external_id']
                     # Some field names are too large
-                    label = label[:40]
                     query.append(f", \"{label}\" TEXT")
                 query.append(")")
 

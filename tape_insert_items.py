@@ -53,7 +53,7 @@ def insert_items(tape: Client, apps_ids: list):
                 table_data_model = OrderedDict()
                 for field in app_info.get('fields'):
                     # Tape permits the following fields as simple attributes
-                    if field['external_id']not in ['record_id', 'created_on', 'last_modified_on']:
+                    if field['external_id'] not in ['record_id', 'created_on', 'last_modified_on']:
                         table_data_model[field['external_id']] = "''"
 
                 try:

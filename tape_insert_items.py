@@ -89,14 +89,13 @@ def _insert_record_values(tape: Client, app_id: int, mydb: connection, cursor: c
         _execute_insert_query(mydb, cursor, table_name, values)
         data_counter += 1
 
-    if data_counter:
-        for _ in range(data_counter, num_of_recs, 500):
-            args['cursor'] = cursor
+    for _ in range(data_counter, num_of_recs, 500):
+        args['cursor'] = response['cursor']
 
-            response = tape.App.get_records(app_id, **args)
+        response = tape.App.get_records(app_id, **args)
 
-            for values in _process_records(cursor, table_name, response['records'], table_data_model):
-                _execute_insert_query(mydb, cursor, table_name, values)
+        for values in _process_records(cursor, table_name, response['records'], table_data_model):
+            _execute_insert_query(mydb, cursor, table_name, values)
 
 
 def _process_records(cursor: cursor, table_name: str, records: list, table_data_model: dict):
@@ -146,7 +145,7 @@ def _execute_insert_query(mydb: connection, cursor: cursor, table_name: str, val
     query.append(")")
 
     try:
-        message = f"Inserindo resgistro de ID={values[0]} na tabela `{table_name}`"
+        message = f"Inserindo registro de ID={values[0]} na tabela `{table_name}`"
         cursor.execute(''.join(query))
         logger.info(message)
 

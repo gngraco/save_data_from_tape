@@ -60,13 +60,13 @@ def get_field_text_values(field: dict) -> str:
 
         for elem in field['values']:
             value = _value_or_null(elem['value']['name'])
-            values += value.replace("\"", "'") + "|"
+            values += value.replace("'", '') + "|"
 
         values = values[:-1]
 
     elif field['type'] == "category":
         value = _value_or_null(field['values'][0]['value']['text'])
-        values += value.replace("\"", "'")
+        values += value.replace("'", '')
 
     elif field['type'] == "date":
 
@@ -99,7 +99,7 @@ def get_field_text_values(field: dict) -> str:
         # Nesse caso o campo é multivalorado, então concatena-se com um pipe '|'
         for val in field['values']:
             value = _value_or_null(val['value']['title'])
-            values += value.replace("\"", "'") + "|"
+            values += value.replace("'", '') + "|"
 
         values = values[:-1]
 
@@ -108,10 +108,18 @@ def get_field_text_values(field: dict) -> str:
         value = _value_or_null(field['values'][0]['value'])
         values += str(value)
 
+    elif field['type'] == "checklist":
+
+        for val in field['values']:
+            value = _value_or_null(val['title'])
+            values += value.replace("'", '') + "|"
+
+        values = values[:-1]
+
     else:
 
         value = _value_or_null(field['values'][0]['value'])
-        values += value.replace("\"", "'")
+        values += value.replace("'", '')
 
     values += "'"
     return values

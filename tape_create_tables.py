@@ -52,9 +52,9 @@ def create_tables(tape: Client, apps_ids: list):
                 query.append(', "last_modified_on" TIMESTAMP')
 
                 for field in app_info.get('fields'):
-                    label = field['external_id']
-                    # Some field names are too large
-                    query.append(f", \"{label}\" TEXT")
+                    # Tape permits the following fields as simple attributes
+                    if field['external_id'] not in ['record_id', 'created_on', 'last_modified_on']:
+                        query.append(f", \"{field['external_id']}\" TEXT")
                 query.append(")")
 
                 message = f"Criando a tabela `{table_name}`"

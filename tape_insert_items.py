@@ -87,13 +87,14 @@ def _insert_record_values(tape: Client, app_id: int, mydb: connection, cursor: c
         _execute_insert_query(mydb, cursor, table_name, values)
         data_counter += 1
 
-    for _ in range(data_counter, num_of_recs, 500):
-        args['cursor'] = cursor
+    if data_counter:
+        for _ in range(data_counter, num_of_recs, 500):
+            args['cursor'] = cursor
 
-        response = tape.App.get_records(app_id, **args)
+            response = tape.App.get_records(app_id, **args)
 
-        for values in _process_records(cursor, table_name, response['records'], table_data_model):
-            _execute_insert_query(mydb, cursor, table_name, values)
+            for values in _process_records(cursor, table_name, response['records'], table_data_model):
+                _execute_insert_query(mydb, cursor, table_name, values)
 
 
 def _process_records(cursor: cursor, table_name: str, records: list, table_data_model: dict):

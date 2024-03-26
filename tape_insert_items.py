@@ -115,7 +115,7 @@ def _process_records(cursor: cursor, table_name: str, records: list, table_data_
             last_modified_on_db = cursor.fetchone()[0]
 
             if last_modified_on_tape > last_modified_on_db:
-                message = f"Registro de ID={record['item_id']} atualizado no tape. Excluindo-o da tabela '{table_name}' e inserindo-o a seguir."
+                message = f"Registro de ID={record['record_id']} atualizado no tape. Excluindo-o da tabela '{table_name}' e inserindo-o a seguir."
                 logger.info(message)
                 cursor.execute(f"DELETE FROM tape.{table_name} WHERE record_id='{record['record_id']}'")
 

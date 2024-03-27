@@ -26,7 +26,7 @@ TAPE_USER_KEY={user_key}
 
 # Tape Apps IDs
 # Workspace 1 - App 1 -> 12345
-# Workspace 1 - App 1 -> 67890
+# Workspace 1 - App 2 -> 67890
 # Workspace 2 - App 1 -> 98765
 TAPE_APPS_IDS=12345,67890,98765
 ```

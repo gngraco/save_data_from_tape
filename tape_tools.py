@@ -54,75 +54,85 @@ def get_field_text_values(field: dict) -> str:
         str: Retorna o valor da coluna
     """
 
-    values = "'"
+    final_values = "'"
 
     if field['type'] == "contact":
 
         for elem in field['values']:
-            value = _value_or_null(elem['value']['name'])
-            values += value.replace("'", '') + "|"
+            value = elem.get('value', {}).get('name', '')
+            final_values += value.replace("'", "") + "|"
 
-        values = values[:-1]
+        final_values = final_values[:-1]
 
     elif field['type'] == "category":
-        value = _value_or_null(field['values'][0]['value']['text'])
-        values += value.replace("'", '')
+
+        for elem in field['values']:
+            value = elem.get('value', {}).get('text', '')
+            final_values += value.replace("'", "") + "|"
+
+        final_values = final_values[:-1]
 
     elif field['type'] == "date":
 
-        value = _value_or_null(field['values'][0]['start'])
-        values += value
+        values = field['values']
+        # `next` obtém o primeiro valor
+        value = next(iter(values), {}).get('start', '')
+
+        final_values += value
 
     elif field['type'] == "calculation":
 
-        value = _value_or_null(field['values'][0]['value_string'])
-        values += value
+        values = field['values']
+        # `next` obtém o primeiro valor
+        value = next(iter(values), {}).get('value_string', '')
+
+        final_values += value
 
     elif field['type'] == "money":
 
-        currency = _value_or_null(field['values'][0]['currency'])
-        value = _value_or_null(field['values'][0]['value'])
-        values += f'{currency} {value}'
+        values = field['values']
+
+        currency = next(iter(values), {}).get('currency', '')
+        value = next(iter(values), {}).get('value', '')
+
+        final_values += f'{currency} {value}'
 
     elif field['type'] == "file":
 
-        value = _value_or_null(field['values'][0]['value']['link'])
-        values += value
+        values = field['values']
+
+        value = next(iter(values), {}).get('value', {}).get('link', '')
+
+        final_values += value
 
     elif field['type'] == "embed":
 
-        value = _value_or_null(field['values'][0]['embed']['url'])
-        values += value
+        values = field['values']
+
+        value = next(iter(values), {}).get('embed', {}).get('url', '')
+
+        final_values += value
 
     elif field['type'] == "app":
 
         # Nesse caso o campo é multivalorado, então concatena-se com um pipe '|'
         for val in field['values']:
-            value = _value_or_null(val['value']['title'])
-            values += value.replace("'", '') + "|"
 
-        values = values[:-1]
+            value = val.get('value', {}).get('title', '')
+            final_values += value.replace("'", "") + "|"
 
-    elif field['type'] == "number" or field['type'] == "unique_id":
-
-        value = _value_or_null(field['values'][0]['value'])
-        values += str(value)
-
-    elif field['type'] == "checklist":
-
-        for val in field['values']:
-            value = _value_or_null(val['title'])
-            values += value.replace("'", '') + "|"
-
-        values = values[:-1]
+        final_values = final_values[:-1]
 
     else:
 
-        value = _value_or_null(field['values'][0]['value'])
-        values += value.replace("'", '')
+        values = field['values']
+        value = next(iter(values), {}).get('value')
 
-    values += "'"
-    return values
+        final_values += str(value).replace("'", "")
+
+    final_values += "'"
+
+    return final_values
 
 
 def _value_or_null(value):

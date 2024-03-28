@@ -121,7 +121,7 @@ def _process_records(cursor: cursor, table_name: str, records: list, table_data_
 
         if not cursor.rowcount or last_modified_on_tape > last_modified_on_db:
 
-            values = [f"'{str(record['record_id'])}','{record['created_on']}','{record['last_modified_on']}'"]
+            values = [f"'{str(record['record_id'])}'",f"'{record['created_on']}'",f"'{record['last_modified_on']}'"]
 
             # Update new database record data with the record data from Tape
             for field in record.get('fields'):

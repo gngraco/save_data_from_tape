@@ -7,7 +7,7 @@ from pytape.transport import TransportException
 
 from get_time import get_hour
 from tape_create_tables import create_tables
-from tape_insert_items import insert_items
+from tape_insert_records import insert_records
 from tape_tools import handling_tape_error
 
 from logging_tools import logger
@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
             if CREATION == 0:
 
-                INSERTION = insert_items(tape, apps_ids)
+                INSERTION = insert_records(tape, apps_ids)
 
                 # Caso o limite de requisições seja atingido, espera-se mais 1 hora até a seguinte iteração
                 if INSERTION == 1:

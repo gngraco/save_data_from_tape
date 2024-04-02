@@ -1,4 +1,4 @@
-"""Functions to insert items from tape to the database."""
+"""Functions to insert records from tape to the database."""
 from collections import OrderedDict
 
 import datetime
@@ -17,8 +17,8 @@ from tape_tools import handling_tape_error, get_field_text_values
 from logging_tools import logger
 
 
-def insert_items(tape: Client, apps_ids: list):
-    """Insert tape items in the database.
+def insert_records(tape: Client, apps_ids: list):
+    """Insert tape records in the database.
 
     Args:
         tape (Client): tape client
